@@ -1,6 +1,8 @@
 from Write import writeData
 from Read import readData
-from Search import searchData
+from Search import search_in
+from Delete import deleteData
+from Edit import editData
 
 
 while True:
@@ -9,12 +11,12 @@ while True:
     if com == 1:
         writeData()
     elif com == 2:
-        searchData()
+        search_in()
     elif com == 3:
         readData()
     elif com == 4:
-        print("режим редактирования не создан")
+        editData()
     elif com == 5:
-        print("режим удаления не создан")
+        deleteData()
     elif com == 0:
         break
