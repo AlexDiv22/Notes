@@ -1,30 +1,30 @@
-def deleteData():
-    print("Заметку можно удалить по номеру строки")
-    with open("data.txt") as file:
-        id_del = int(input())
-        id_note = file.readlines()
-        del id_note[id_del - 1]
-        with open("data.txt", "w") as f:
-            for item in id_note:
-                f.write(item)
-        file.close()
-def delete_in_id():
-    print("Заметку можно удалить по ID")
-    with open("data.txt") as file:
-        id_del = input()
-        id_note = file.readlines()
+import csv
 
-    with open("data.txt", "w") as f:
-        for item in id_note:
-            if ("id: " + id_del + "; ") not in item:
-                f.write(item)
-        file.close()
-def delete_in():
-    print("Удалить заметку можно по ID или номеру строки: \n 1 - ID \n 2 - номер строки \n 0 - выход \n")
-    com = int(input())
-    if com == 1:
-        delete_in_id()
-    elif com == 2:
-        deleteData()
-    elif com == 0:
+def deleteData():
+    key = input("Введите ID заметки для выбора ")
+    new_data = []
+    count = 0
+    file = open("data.csv", 'r')
+    data_text = csv.reader(file)
+    for item in data_text:
+        new_data.append(item)
+        if ("id: " + key) in item:
+            count +=1
+            print(item)
+    if count == 0:
+        print("Ничего не найдено\n")
         return
+    file.close()
+    com = input("Удалить заметку? - y/n \n")
+    if com == 'y' or com == 'Y':
+        f = open("data.csv", 'w')
+        writer = csv.writer(f)
+        for item in new_data:
+            if ("id: " + key) not in item:
+                writer.writerow(item)
+        print("Заметка удалена")
+        f.close()
+    elif com == 'n' or com == 'N':
+        return
+    else:
+        print("Неверная команда")

@@ -1,11 +1,14 @@
 from Input import inputData
+import datetime
+from random import randint
+import csv
 
 def writeData():
-    file = open('data.txt', 'a')
+    date = datetime.datetime.today() - datetime.timedelta(1)
+    id = randint(1,99)
+    file = open('data.csv', 'a')
+    writer = csv.writer(file)
     data = inputData()
-    file.write("Id: " + data[0] + "; ")
-    file.write("Дата: " + data[1] + "; ")
-    file.write("Заголовок: " + data[2] + "; ")
-    file.write("Содержание: " + data[3] + "; \n")
+    writer.writerow(['* ' + data[0], data[1], "создано: " + str(date.strftime('%Y-%m-%d %H:%M:%S')), "id: " + str(id)])
     file.close()
     print("Заметка создана" + "\n")

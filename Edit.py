@@ -1,27 +1,36 @@
-def edit_head():
-    id = input("Введите ID заметки, которую необходимо отредактировать: ")
-    with open("data.txt", 'r') as file:
-        data_text = file.readlines()
-        if len(data_text) > 0:
-            for item in data_text:
-                if ("id: " + id + "; ") in item:
-                    print(item)
-        else:
-            print("Заметки не найдены")
-        file.close()
+import datetime
+import csv
 
-    print("Запишите новый текст: ")
-    new_data = input()
-
-def edit_text():
-    print("working...")
+def input_new_data():
+    header = input("Новый заголовок: ")
+    text = input("Новый текст: ")
+    return [header, text]
 
 def editData():
-    print("Редактировать: \n 1 - Заголовок \n 2 - Содержание \n 0 - выход \n")
-    com = int(input())
-    if com == 1:
-        edit_head()
-    elif com == 2:
-        edit_text()
-    elif com == 0:
+    date = datetime.datetime.today() - datetime.timedelta(1)
+    id = input(" Заметку можно найти по ID \n Выйти - 0 \n")
+    if len(str(id)) <= 3 and id.isdigit():
+        if id != '0':
+            new_data = []
+            file = open("data.csv", 'r')
+            data_text = csv.reader(file)
+            for item in data_text:
+                new_data.append(item)
+                if ("id: " + id) in item:
+                    print(item)
+            file.close()
+            new_text = input_new_data()
+            f = open("data.csv", 'w')
+            writer = csv.writer(f)
+            writer.writerow(['* ' + new_text[0], new_text[1], "изменено: " + str(date.strftime('%Y-%m-%d %H:%M:%S')),
+                             "id: " + str(id)])
+            for item in new_data:
+                if ("id: " + id) not in item:
+                    writer.writerow(item)
+            f.close()
+            print("Изменения сохранены")
+        else:
+            return
+    else:
+        print('Введите идентификатор в виде цифры')
         return
